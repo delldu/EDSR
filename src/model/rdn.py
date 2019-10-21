@@ -103,3 +103,16 @@ class RDN(nn.Module):
         x += f__1
 
         return self.UPNet(x)
+
+# cd ..(src), export PYTHONPATH=`pwd`
+# if __name__ == '__main__':
+#     import torch
+#     import utility
+#     from option import args
+
+#     torch.manual_seed(args.seed)
+#     checkpoint = utility.checkpoint(args)
+
+#     print(args)
+#     model = RDN(args)
+#     print(model)

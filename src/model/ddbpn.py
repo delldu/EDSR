@@ -129,3 +129,15 @@ class DDBPN(nn.Module):
 
         return out
 
+# cd ..(src), export PYTHONPATH=`pwd`
+if __name__ == '__main__':
+    import torch
+    import utility
+    from option import args
+
+    torch.manual_seed(args.seed)
+    checkpoint = utility.checkpoint(args)
+
+    print(args)
+    model = DDBPN(args)
+    print(model)

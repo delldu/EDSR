@@ -20,7 +20,7 @@ class EDSR(nn.Module):
 
         n_resblocks = args.n_resblocks
         n_feats = args.n_feats
-        kernel_size = 3 
+        kernel_size = 3
         scale = args.scale[0]
         act = nn.ReLU(True)
         url_name = 'r{}f{}x{}'.format(n_resblocks, n_feats, scale)
@@ -83,3 +83,15 @@ class EDSR(nn.Module):
                     raise KeyError('unexpected key "{}" in state_dict'
                                    .format(name))
 
+# cd ..(src), export PYTHONPATH=`pwd`
+# if __name__ == '__main__':
+#     import torch
+#     import utility
+#     from option import args
+
+#     torch.manual_seed(args.seed)
+#     checkpoint = utility.checkpoint(args)
+
+#     print(args)
+#     model = make_model(args)
+#     print(model)

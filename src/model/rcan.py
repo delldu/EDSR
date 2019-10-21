@@ -140,3 +140,16 @@ class RCAN(nn.Module):
             missing = set(own_state.keys()) - set(state_dict.keys())
             if len(missing) > 0:
                 raise KeyError('missing keys in state_dict: "{}"'.format(missing))
+
+
+if __name__ == '__main__':
+    import torch
+    import utility
+    from option import args
+
+    torch.manual_seed(args.seed)
+    checkpoint = utility.checkpoint(args)
+
+    print(args)
+    model = RCAN(args)
+    print(model)

@@ -6,15 +6,19 @@ from torch.nn.parameter import Parameter
 
 class Block(nn.Module):
     def __init__(
-        self, n_feats, kernel_size, block_feats, wn, res_scale=1, act=nn.ReLU(True)):
+        self, n_feats, kernel_size, wn, act=nn.ReLU(True), res_scale=1):
         super(Block, self).__init__()
         self.res_scale = res_scale
         body = []
+        expand = 6
+        linear = 0.8
         body.append(
-            wn(nn.Conv2d(n_feats, block_feats, kernel_size, padding=kernel_size//2)))
+            wn(nn.Conv2d(n_feats, n_feats*expand, 1, padding=1//2)))
         body.append(act)
         body.append(
-            wn(nn.Conv2d(block_feats, n_feats, kernel_size, padding=kernel_size//2)))
+            wn(nn.Conv2d(n_feats*expand, int(n_feats*linear), 1, padding=1//2)))
+        body.append(
+            wn(nn.Conv2d(int(n_feats*linear), n_feats, kernel_size, padding=kernel_size//2)))
 
         self.body = nn.Sequential(*body)
 
@@ -48,7 +52,7 @@ class MODEL(nn.Module):
         body = []
         for i in range(n_resblocks):
             body.append(
-                Block(n_feats, kernel_size, args.block_feats, wn=wn, res_scale=args.res_scale, act=act))
+                Block(n_feats, kernel_size, act=act, res_scale=args.res_scale, wn=wn))
 
         # define tail module
         tail = []
@@ -78,3 +82,17 @@ class MODEL(nn.Module):
         x += s
         x = x*127.5 + self.rgb_mean.cuda()*255
         return x
+
+
+# cd ..(src), export PYTHONPATH=`pwd`
+# if __name__ == '__main__':
+#     import torch
+#     import utility
+#     from option import args
+
+#     torch.manual_seed(args.seed)
+#     checkpoint = utility.checkpoint(args)
+
+#     print(args)
+#     model = MODEL(args)
+#     print(model)

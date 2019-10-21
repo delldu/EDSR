@@ -16,8 +16,13 @@ class VDSR(nn.Module):
 
         n_resblocks = args.n_resblocks
         n_feats = args.n_feats
-        kernel_size = 3 
-        self.url = url['r{}f{}'.format(n_resblocks, n_feats)]
+        kernel_size = 3
+        url_name = 'r{}f{}'.format(n_resblocks, n_feats)
+        if url_name in url:
+            self.url = url[url_name]
+        else:
+            self.url = None
+
         self.sub_mean = common.MeanShift(args.rgb_range)
         self.add_mean = common.MeanShift(args.rgb_range, sign=1)
 
@@ -44,3 +49,16 @@ class VDSR(nn.Module):
 
         return x 
 
+
+# cd ..(src), export PYTHONPATH=`pwd`
+# if __name__ == '__main__':
+#     import torch
+#     import utility
+#     from option import args
+
+#     torch.manual_seed(args.seed)
+#     checkpoint = utility.checkpoint(args)
+
+#     print(args)
+#     model = VDSR(args)
+#     print(model)

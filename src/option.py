@@ -43,6 +43,12 @@ parser.add_argument('--chop', action='store_true',
                     help='enable memory-efficient forward')
 parser.add_argument('--no_augment', action='store_true',
                     help='do not use data augmentation')
+parser.add_argument('--r_mean', type=float, default=0.4488,
+                    help='Mean of R Channel')
+parser.add_argument('--g_mean', type=float, default=0.4371,
+                    help='Mean of G channel')
+parser.add_argument('--b_mean', type=float, default=0.4040,
+                    help='Mean of B channel')
 
 # Model specifications
 parser.add_argument('--model', default='EDSR',
@@ -58,6 +64,8 @@ parser.add_argument('--n_resblocks', type=int, default=16,
                     help='number of residual blocks')
 parser.add_argument('--n_feats', type=int, default=64,
                     help='number of feature maps')
+parser.add_argument('--block_feats', type=int, default=512,
+                    help='number of block feature')
 parser.add_argument('--res_scale', type=float, default=1,
                     help='residual scaling')
 parser.add_argument('--shift_mean', default=True,
@@ -141,7 +149,7 @@ parser.add_argument('--print_every', type=int, default=100,
 parser.add_argument('--save_results', action='store_true',
                     help='save output results')
 parser.add_argument('--save_gt', action='store_true',
-                    help='save low-resolution and high-resolution images together')
+                    help='save low and high resolution images together')
 
 args = parser.parse_args()
 template.set_template(args)
@@ -158,4 +166,3 @@ for arg in vars(args):
         vars(args)[arg] = True
     elif vars(args)[arg] == 'False':
         vars(args)[arg] = False
-

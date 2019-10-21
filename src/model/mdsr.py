@@ -65,3 +65,16 @@ class MDSR(nn.Module):
     def set_scale(self, scale_idx):
         self.scale_idx = scale_idx
 
+
+# cd ..(src), export PYTHONPATH=`pwd`
+# if __name__ == '__main__':
+#     import torch
+#     import utility
+#     from option import args
+
+#     torch.manual_seed(args.seed)
+#     checkpoint = utility.checkpoint(args)
+
+#     print(args)
+#     model = make_model(args)
+#     print(model)
